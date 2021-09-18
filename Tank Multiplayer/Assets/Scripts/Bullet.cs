@@ -30,8 +30,9 @@ public class Bullet : MonoBehaviour
             Tank hitTankStats = hit.GetComponent<Tank>();
             hitTankStats.TakeDamage(tankStats.damage);
 
-            if (hitTankStats.getLives() <= 0)
+            if (hitTankStats.GetLives() == 0)
             {
+                Debug.Log("Player killed");
                 tankStats.IncreaseScore();
             }
         }

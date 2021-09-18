@@ -13,17 +13,16 @@ public class Tank : MonoBehaviour
 
     [SerializeField] GameObject deathEffect = null;
 
-    private int score;
+    private static int score = 0;
 
     public float speed = 3f;
-
 
     void Start()
     {
         current_lives = max_lives;
     }
 
-    public int getLives()
+    public int GetLives()
     {
         return current_lives;
     }
@@ -42,6 +41,11 @@ public class Tank : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "OfflineGame")
         {
+            if (this.CompareTag("Player"))
+            {
+                Debug.Log("GAME OVER");
+            }
+
             Instantiate(deathEffect, this.transform.position, this.transform.rotation);
         }
         else if (SceneManager.GetActiveScene().name == "OnlineGame")
@@ -60,12 +64,12 @@ public class Tank : MonoBehaviour
 
     public void IncreaseScore()
     {
-        score++;
-        //Debug.Log("player Score: " + score);
+        score ++;
+        Debug.Log("player Score: " + score);
     }
 
     void Update()
     {
-        Debug.Log("player score: " + score);
+        //Debug.Log("player score: " + score);
     }
 }
