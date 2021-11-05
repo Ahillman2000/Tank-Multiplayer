@@ -8,11 +8,11 @@ public class TankMovement : MonoBehaviour
     Tank tankStats;
     Rigidbody2D rb;
 
-    private float movementInput;
+    float movementInput;
 
     float rotationInput;
     Vector3 eulerAngleVelocity;
-    [SerializeField] private float tankRotationSpeed = 100f;
+    [SerializeField] float tankRotationSpeed = 100f;
 
     PhotonView view;
 

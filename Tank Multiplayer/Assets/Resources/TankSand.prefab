@@ -368,7 +368,7 @@ MonoBehaviour:
   max_lives: 3
   damage: 1
   deathEffect: {fileID: 8650124224471081967, guid: 19f0e31175f930b4a9c21d0400bf28fc, type: 3}
-  speed: 3
+  speed: 5
 --- !u!114 &5216638617489125501
 MonoBehaviour:
   m_ObjectHideFlags: 0
