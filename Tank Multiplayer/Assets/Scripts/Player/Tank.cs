@@ -68,8 +68,17 @@ public class Tank : MonoBehaviour
         Debug.Log("player Score: " + score);
     }
 
+    public void Debugger()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(1);
+        }
+    }
+
     void Update()
     {
         //Debug.Log("player score: " + score);
+        Debugger();
     }
 }
