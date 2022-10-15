@@ -19,9 +19,9 @@ public class EnemyAI : MonoBehaviour
 
     public float nextWayPointDistance = 1;
 
-    Path path;
-    int currentWaypoint = 0;
-    bool reachedEndOfPath = false;
+    private Path path;
+    private int currentWaypoint = 0;
+    private bool reachedEndOfPath = false;
 
     [SerializeField] float speed = 2.5f;
 

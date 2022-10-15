@@ -6,13 +6,14 @@ using Photon.Realtime;
 using TMPro;
 using UnityEngine.UI;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby Instance { get; private set; }
 
+    public TMP_InputField nameInputField;
     public TMP_InputField joinRoomInputField;
-    //public TMP_Text joinRoomInputFieldText;
 
     public List<Button> buttons = new List<Button>();
 
@@ -22,9 +23,10 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         if(Instance != null && Instance != this)
         {
             Destroy(Instance);
-            Debug.LogError("Another instance of PhotonLobby found, there should only be one in the scene");
+            Debug.LogWarning("Another instance of PhotonLobby found, there should only be one in the scene");
         }
         Instance = this;
+        DontDestroyOnLoad(this);
     }
 
     private void Start()
@@ -38,11 +40,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Runs when the user connects to server
+    /// Runs when this user connects to server
     /// </summary>
     public override void OnConnectedToMaster()
     {
         Debug.Log("user connected to photon master server");
+        PhotonNetwork.AutomaticallySyncScene = true;
 
         foreach (Button button in buttons)
         {
@@ -66,16 +69,16 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
             sb.Append(glyphs[Random.Range(0, glyphs.Length)]);
         }
 
-        roomCode = sb.ToString();
+        roomCode = sb.ToString().ToUpper();
 
         RoomOptions roomOptions = new RoomOptions
         {
             IsOpen = true,
             IsVisible = true,
-            MaxPlayers = 5,
+            MaxPlayers = MultiplayerSettings.Instance.maxPlayerCount,
         };
 
-        PhotonNetwork.CreateRoom("Room " + roomCode, roomOptions);
+        PhotonNetwork.CreateRoom(roomCode, roomOptions);
     }
 
     /// <summary>
@@ -84,7 +87,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        Debug.Log("new room created");
+        Debug.Log("new room created with code: " + PhotonNetwork.CurrentRoom.Name);
     }
 
     /// <summary>
@@ -106,7 +109,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     }
 
     /// <summary>
-    /// Runs when a user fails to join random room and creates a new room
+    /// Runs when this user fails to join random room and creates a new room
     /// </summary>
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -120,21 +123,24 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     /// </summary>
     public void JoinRoom()
     {
-        if(joinRoomInputField.text.Length > 0)
-            PhotonNetwork.JoinRoom(joinRoomInputField.text);
+        PhotonNetwork.JoinRoom(joinRoomInputField.text.ToUpper());
     }
 
     /// <summary>
-    /// Runs when a user sucessfully joins a specified room
+    /// Runs when this user sucessfully joins a room
     /// </summary>
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
-        Debug.Log("room joined");
+
+        SceneManager.LoadScene("Room");
+
+        PhotonNetwork.NickName = nameInputField.text;
+        Debug.Log(PhotonNetwork.NickName + " has joined the room " + PhotonNetwork.CurrentRoom.Name);
     }
 
     /// <summary>
-    /// Runs when a user fails to join a specified room
+    /// Runs when this user fails to join a specified room
     /// </summary>
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
@@ -148,5 +154,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public void OnCancel()
     {
         PhotonNetwork.LeaveRoom();
+        SceneManager.LoadScene("MainMenu");
     }
 }
