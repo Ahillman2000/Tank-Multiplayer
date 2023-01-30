@@ -5,7 +5,7 @@ using Photon.Pun;
 
 public class TankMovement : MonoBehaviour
 {
-    Tank tankStats;
+    Tank tank;
     Rigidbody2D rb;
 
     float movementInput;
@@ -14,11 +14,13 @@ public class TankMovement : MonoBehaviour
     Vector3 eulerAngleVelocity;
     [SerializeField] float tankRotationSpeed = 100f;
 
+    public float movementSpeed = 3f;
+
     PhotonView view;
 
     void Start()
     {
-        tankStats = this.GetComponent<Tank>();
+        tank = this.GetComponent<Tank>();
 
         rb = this.GetComponent<Rigidbody2D>();
         view = this.GetComponent<PhotonView>();
@@ -43,7 +45,7 @@ public class TankMovement : MonoBehaviour
             rb.MoveRotation(rb.transform.rotation * deltaRotation);
 
             //rb.MovePosition(rb.position + movementVector * speed * Time.fixedDeltaTime);
-            rb.MovePosition(this.transform.position + transform.up * movementInput * tankStats.speed * Time.fixedDeltaTime);
+            rb.MovePosition(this.transform.position + movementInput * movementSpeed * Time.fixedDeltaTime * transform.up);
         }
     }
 }

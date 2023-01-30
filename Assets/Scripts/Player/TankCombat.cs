@@ -9,6 +9,8 @@ public class TankCombat : MonoBehaviour
     [SerializeField] Transform firePoint = null;
     [SerializeField] GameObject projectile = null;
 
+    [SerializeField] private int damage = 1;
+
     PhotonView view;
 
     void Start()
@@ -27,15 +29,20 @@ public class TankCombat : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Instantiates a projectice at the firepoint
+    /// </summary>
     void Shoot()
     {
         if(SceneManager.GetActiveScene().name == "OfflineGame")
         {
-            Instantiate(projectile, firePoint.position, firePoint.rotation);
+            GameObject shell = Instantiate(projectile, firePoint.position, firePoint.rotation);
+            shell.GetComponent<Bullet>().damage = damage;
         }
         else if(SceneManager.GetActiveScene().name == "OnlineGame")
         {
-            PhotonNetwork.Instantiate(projectile.name, firePoint.position, firePoint.rotation);
+            GameObject shell = PhotonNetwork.Instantiate(projectile.name, firePoint.position, firePoint.rotation);
+            shell.GetComponent<Bullet>().damage = damage;
         }
     }
 }

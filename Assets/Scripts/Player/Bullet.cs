@@ -4,37 +4,23 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public GameObject tank;
-    Tank tankStats;
-
     [SerializeField] float speed = 10f;
     Rigidbody2D rb;
-    //[SerializeField] private int damage = 1;
+    
+    public int damage;
 
     void Start()
     {
-        tankStats = tank.GetComponent<Tank>();
-
         rb = this.GetComponent<Rigidbody2D>();
         rb.velocity = transform.up * speed;
     }
 
     void OnTriggerEnter2D(Collider2D hit)
     {
-        Debug.Log(hit.name);
-
-        if (hit.CompareTag("Player") || hit.CompareTag("Enemy"))
+        if (hit.GetComponent<IDamagable>() != null)
         {
-            //Debug.Log("hit tank");
-
-            Tank hitTankStats = hit.GetComponent<Tank>();
-            hitTankStats.TakeDamage(tankStats.damage);
-
-            if (hitTankStats.GetLives() == 0)
-            {
-                Debug.Log("Player killed");
-                tankStats.IncreaseScore();
-            }
+            IDamagable hitObject = hit.GetComponent<IDamagable>();
+            hitObject.Damage(damage);
         }
         Destroy(this.gameObject);
     }

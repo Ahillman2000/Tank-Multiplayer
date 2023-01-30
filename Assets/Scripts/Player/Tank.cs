@@ -4,49 +4,51 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
 
-public class Tank : MonoBehaviour
+public class Tank : MonoBehaviour, IDamagable
 {
-    public int max_lives = 3;
-    private int current_lives;
+    public int maxLives = 3;
+    public int MaxHealth => maxLives;
 
-    public int damage = 1;
+    private int currentLives;
+    public int CurrentHealth => currentLives;
 
-    [SerializeField] GameObject deathEffect = null;
+    [SerializeField] private GameObject deathEffect = null;
+
 
     private static int score = 0;
 
-    public float speed = 3f;
-
     void Start()
     {
-        current_lives = max_lives;
+        currentLives = maxLives;
     }
 
-    public int GetLives()
+    /// <summary>
+    /// Reduces the health by a set amount
+    /// </summary>
+    /// <param name="damage"> Amount of health to be reduced by </param>
+    public void Damage(int damage)
     {
-        return current_lives;
-    }
+        currentLives -= damage;
 
-    public void TakeDamage(int _damage)
-    {
-        current_lives -= _damage;
-
-        if (current_lives <= 0)
+        if (currentLives <= 0)
         {
-            Die();
+            Destory();
         }
     }
 
-    void Die()
+    /// <summary>
+    /// Called when health reaches 0
+    /// </summary>
+    public void Destory()
     {
         if (SceneManager.GetActiveScene().name == "OfflineGame")
         {
+            Instantiate(deathEffect, this.transform.position, this.transform.rotation);
+
             if (this.CompareTag("Player"))
             {
                 Debug.Log("GAME OVER");
             }
-
-            Instantiate(deathEffect, this.transform.position, this.transform.rotation);
         }
         else if (SceneManager.GetActiveScene().name == "OnlineGame")
         {
@@ -57,22 +59,31 @@ public class Tank : MonoBehaviour
         //Respawn();
     }
 
+    /// <summary>
+    /// Respawns the object
+    /// </summary>
     void Respawn()
     {
-        current_lives = max_lives;
+        currentLives = maxLives;
     }
 
-    public void IncreaseScore()
+    /// <summary>
+    /// Increments the objects score by a set amount
+    /// </summary>
+    public void IncreaseScore(int increment)
     {
-        score ++;
+        score += increment;
         Debug.Log("player Score: " + score);
     }
 
+    /// <summary>
+    /// Debug functionality for the object
+    /// </summary>
     public void Debugger()
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            TakeDamage(1);
+            Damage(1);
         }
     }
 
