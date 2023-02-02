@@ -10,6 +10,8 @@ public class TankCombat : MonoBehaviour
     [SerializeField] GameObject projectile = null;
 
     [SerializeField] private int damage = 1;
+    [SerializeField] private float shotCooldown = 0.5f;
+    private float shotTimer = 0;
 
     PhotonView view;
 
@@ -22,10 +24,16 @@ public class TankCombat : MonoBehaviour
     {
         if(view.IsMine)
         {
-            if (Input.GetButtonDown("Fire1"))
+            if (Input.GetButtonDown("Fire1") && shotTimer >= shotCooldown)
             {
                 Shoot();
+                shotTimer = 0f;
             }
+        }
+
+        if(shotTimer < shotCooldown)
+        {
+            shotTimer += Time.deltaTime;
         }
     }
 
