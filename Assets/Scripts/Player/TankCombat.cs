@@ -45,11 +45,13 @@ public class TankCombat : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "OfflineGame")
         {
             GameObject shell = Instantiate(projectile, firePoint.position, firePoint.rotation);
+            shell.GetComponent<Bullet>().owner = this.GetComponent<Tank>();
             shell.GetComponent<Bullet>().damage = damage;
         }
         else if(SceneManager.GetActiveScene().name == "OnlineGame")
         {
             GameObject shell = PhotonNetwork.Instantiate(projectile.name, firePoint.position, firePoint.rotation);
+            shell.GetComponent<Bullet>().owner = this.GetComponent<Tank>();
             shell.GetComponent<Bullet>().damage = damage;
         }
     }

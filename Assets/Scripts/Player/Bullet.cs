@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] float speed = 10f;
     Rigidbody2D rb;
+    public Tank owner;
     
     public int damage;
 
@@ -20,7 +21,7 @@ public class Bullet : MonoBehaviour
         if (hit.GetComponent<IDamagable>() != null)
         {
             IDamagable hitObject = hit.GetComponent<IDamagable>();
-            hitObject.Damage(damage);
+            hitObject.Damage(owner, damage);
         }
         Destroy(this.gameObject);
     }

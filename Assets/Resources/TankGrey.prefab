@@ -303,6 +303,7 @@ MonoBehaviour:
   firePoint: {fileID: 8009460051775265406}
   projectile: {fileID: 8817708783125009584, guid: 5f97d7d11fd3d794eae86efc467a60a8, type: 3}
   damage: 1
+  shotCooldown: 0.5
 --- !u!212 &1173261883221566483
 SpriteRenderer:
   m_ObjectHideFlags: 0

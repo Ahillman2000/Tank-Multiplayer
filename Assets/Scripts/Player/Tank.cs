@@ -9,13 +9,12 @@ public class Tank : MonoBehaviour, IDamagable
     public int maxLives = 3;
     public int MaxHealth => maxLives;
 
-    private int currentLives;
+    [SerializeField] private int currentLives;
     public int CurrentHealth => currentLives;
 
     [SerializeField] private GameObject deathEffect = null;
 
-
-    private static int score = 0;
+    public int score = 0;
 
     void Start()
     {
@@ -26,13 +25,23 @@ public class Tank : MonoBehaviour, IDamagable
     /// Reduces the health by a set amount
     /// </summary>
     /// <param name="damage"> Amount of health to be reduced by </param>
-    public void Damage(int damage)
+    public void Damage(Tank attacker, int damage)
     {
         currentLives -= damage;
 
         if (currentLives <= 0)
         {
+            attacker.score++;
             Destory();
+        }
+    }
+
+    public void Repair(int health)
+    {
+        if(currentLives < maxLives)
+        {
+            currentLives += health;
+            Debug.Log("Unit healed", gameObject);
         }
     }
 
@@ -73,7 +82,7 @@ public class Tank : MonoBehaviour, IDamagable
     public void IncreaseScore(int increment)
     {
         score += increment;
-        Debug.Log("player Score: " + score);
+        Debug.Log("player Score: " + score, gameObject);
     }
 
     /// <summary>
@@ -83,7 +92,7 @@ public class Tank : MonoBehaviour, IDamagable
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            Damage(1);
+            Damage(this, 1);
         }
     }
 

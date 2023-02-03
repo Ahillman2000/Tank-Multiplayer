@@ -19,7 +19,7 @@ public class Barrel : MonoBehaviour, IDamagable
         currentHealth = maxHealth;
     }
 
-    public void Damage(int damage)
+    public void Damage(Tank attacker, int damage)
     {
         currentHealth -= damage;
 
