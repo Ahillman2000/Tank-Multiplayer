@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Pun;
+using UnityEngine.InputSystem;
 
 public class TankCombat : MonoBehaviour
 {
@@ -18,22 +19,23 @@ public class TankCombat : MonoBehaviour
     void Start()
     {
         view = this.GetComponent<PhotonView>();
+
+        InputManager.Instance.tankInputActions.Tank.Shoot.performed += DoShoot;
     }
 
     void Update()
     {
-        if(view.IsMine)
-        {
-            if (Input.GetButtonDown("Fire1") && shotTimer >= shotCooldown)
-            {
-                Shoot();
-                shotTimer = 0f;
-            }
-        }
-
         if(shotTimer < shotCooldown)
         {
             shotTimer += Time.deltaTime;
+        }
+    }
+
+    private void DoShoot(InputAction.CallbackContext context)
+    {
+        if (view.IsMine && shotTimer >= shotCooldown)
+        {
+            Shoot();
         }
     }
 
@@ -54,5 +56,6 @@ public class TankCombat : MonoBehaviour
             shell.GetComponent<Bullet>().owner = this.GetComponent<Tank>();
             shell.GetComponent<Bullet>().damage = damage;
         }
+        shotTimer = 0f;
     }
 }

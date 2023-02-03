@@ -21,7 +21,11 @@ public class Tank : MonoBehaviour, IDamagable
     void Start()
     {
         currentLives = maxLives;
-        healthUI.UpdateHearts(currentLives);
+
+        if(healthUI != null)
+        {
+            healthUI.UpdateHearts(currentLives);
+        }
     }
 
     /// <summary>
@@ -31,7 +35,10 @@ public class Tank : MonoBehaviour, IDamagable
     public void Damage(Tank attacker, int damage)
     {
         currentLives -= damage;
-        healthUI.UpdateHearts(currentLives);
+        if (healthUI != null)
+        {
+            healthUI.UpdateHearts(currentLives);
+        }
 
         if (currentLives <= 0)
         {
@@ -45,7 +52,10 @@ public class Tank : MonoBehaviour, IDamagable
         if(currentLives < maxLives)
         {
             currentLives += health;
-            healthUI.UpdateHearts(currentLives);
+            if (healthUI != null)
+            {
+                healthUI.UpdateHearts(currentLives);
+            }
             Debug.Log("Unit healed", gameObject);
         }
     }
@@ -79,7 +89,10 @@ public class Tank : MonoBehaviour, IDamagable
     void Respawn()
     {
         currentLives = maxLives;
-        healthUI.UpdateHearts(currentLives);
+        if (healthUI != null)
+        {
+            healthUI.UpdateHearts(currentLives);
+        }
     }
 
     /// <summary>

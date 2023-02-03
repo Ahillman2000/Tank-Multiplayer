@@ -6,7 +6,7 @@ using Photon.Pun;
 public class TurretControl : MonoBehaviour
 {
     Camera mainCam;
-    Vector3 mousePos;
+    Vector3 lookPos;
 
     public Rigidbody2D tankRigidBody;
 
@@ -22,7 +22,7 @@ public class TurretControl : MonoBehaviour
     {
         if(view.IsMine)
         {
-            mousePos = mainCam.ScreenToWorldPoint(Input.mousePosition);
+            lookPos = mainCam.ScreenToWorldPoint(Input.mousePosition);
         }
     }
 
@@ -30,7 +30,7 @@ public class TurretControl : MonoBehaviour
     {
         if(view.IsMine)
         {
-            Vector2 lookDir = mousePos - transform.position;
+            Vector2 lookDir = lookPos - transform.position;
             float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
 
             this.transform.rotation = Quaternion.Euler(0, 0, angle);
