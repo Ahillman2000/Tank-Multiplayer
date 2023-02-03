@@ -21,11 +21,6 @@ public class Tank : MonoBehaviour, IDamagable
     void Start()
     {
         currentLives = maxLives;
-
-        if(healthUI != null)
-        {
-            healthUI.UpdateHearts(currentLives);
-        }
     }
 
     /// <summary>
@@ -35,10 +30,6 @@ public class Tank : MonoBehaviour, IDamagable
     public void Damage(Tank attacker, int damage)
     {
         currentLives -= damage;
-        if (healthUI != null)
-        {
-            healthUI.UpdateHearts(currentLives);
-        }
 
         if (currentLives <= 0)
         {
@@ -52,10 +43,6 @@ public class Tank : MonoBehaviour, IDamagable
         if(currentLives < maxLives)
         {
             currentLives += health;
-            if (healthUI != null)
-            {
-                healthUI.UpdateHearts(currentLives);
-            }
             Debug.Log("Unit healed", gameObject);
         }
     }
@@ -72,6 +59,7 @@ public class Tank : MonoBehaviour, IDamagable
             if (this.CompareTag("Player"))
             {
                 Debug.Log("GAME OVER");
+                UIManager.Instance.GameOver();
             }
         }
         else if (SceneManager.GetActiveScene().name == "OnlineGame")
@@ -89,10 +77,6 @@ public class Tank : MonoBehaviour, IDamagable
     void Respawn()
     {
         currentLives = maxLives;
-        if (healthUI != null)
-        {
-            healthUI.UpdateHearts(currentLives);
-        }
     }
 
     /// <summary>
@@ -109,9 +93,13 @@ public class Tank : MonoBehaviour, IDamagable
     /// </summary>
     public void Debugger()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Minus))
         {
             Damage(this, 1);
+        }
+        if (Input.GetKeyDown(KeyCode.Equals))
+        {
+            IncreaseScore(1);
         }
     }
 

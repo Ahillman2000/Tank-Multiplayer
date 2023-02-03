@@ -23,6 +23,11 @@ public class TankCombat : MonoBehaviour
         InputManager.Instance.tankInputActions.Tank.Shoot.performed += DoShoot;
     }
 
+    private void OnDisable()
+    {
+        InputManager.Instance.tankInputActions.Tank.Shoot.performed -= DoShoot;
+    }
+
     void Update()
     {
         if(shotTimer < shotCooldown)

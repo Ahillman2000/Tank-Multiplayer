@@ -11,6 +11,13 @@ public class HealthUI : MonoBehaviour
     [SerializeField] private Sprite halfHeart;
     [SerializeField] private Sprite emptyHeart;
 
+    [SerializeField] private Tank player;
+
+    private void Update()
+    {
+        UpdateHearts(player.CurrentHealth);
+    }
+
     public void UpdateHearts(int health)
     {
         for (int i = 0; i < hearts.Count; i++)
