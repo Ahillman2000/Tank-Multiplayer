@@ -14,6 +14,8 @@ public class TankMovement : MonoBehaviour
 
     PhotonView view;
 
+    [SerializeField] private InputManager inputManager;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -24,7 +26,7 @@ public class TankMovement : MonoBehaviour
     {
         if(view.IsMine)
         {
-            eulerAngleVelocity = new Vector3(0, 0, InputManager.Instance.Rotation * tankRotationSpeed * -1);
+            eulerAngleVelocity = new Vector3(0, 0, inputManager.Rotation * tankRotationSpeed * -1);
         }
     }
 
@@ -35,7 +37,7 @@ public class TankMovement : MonoBehaviour
             Quaternion deltaRotation = Quaternion.Euler(eulerAngleVelocity * Time.fixedDeltaTime);
             rb.MoveRotation(rb.transform.rotation * deltaRotation);
 
-            rb.MovePosition(this.transform.position + InputManager.Instance.Movemement * movementSpeed * Time.fixedDeltaTime * transform.up);
+            rb.MovePosition(this.transform.position + inputManager.Movemement * movementSpeed * Time.fixedDeltaTime * transform.up);
         }
     }
 }

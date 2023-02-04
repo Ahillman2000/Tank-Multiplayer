@@ -33,7 +33,7 @@ public class Tank : MonoBehaviour, IDamagable
 
         if (currentLives <= 0)
         {
-            attacker.score++;
+            attacker.IncreaseScore(1);
             Destory();
         }
     }
@@ -67,8 +67,6 @@ public class Tank : MonoBehaviour, IDamagable
             PhotonNetwork.Instantiate(deathEffect.name, this.transform.position, this.transform.rotation);
         }
         Destroy(this.gameObject);
-
-        //Respawn();
     }
 
     /// <summary>
@@ -85,7 +83,6 @@ public class Tank : MonoBehaviour, IDamagable
     public void IncreaseScore(int increment)
     {
         score += increment;
-        Debug.Log("player Score: " + score, gameObject);
     }
 
     /// <summary>
@@ -93,19 +90,21 @@ public class Tank : MonoBehaviour, IDamagable
     /// </summary>
     public void Debugger()
     {
-        if(Input.GetKeyDown(KeyCode.Minus))
+        if (this.CompareTag("Player"))
         {
-            Damage(this, 1);
-        }
-        if (Input.GetKeyDown(KeyCode.Equals))
-        {
-            IncreaseScore(1);
+            if (Input.GetKeyDown(KeyCode.Minus))
+            {
+                Damage(this, 1);
+            }
+            if (Input.GetKeyDown(KeyCode.Equals))
+            {
+                IncreaseScore(1);
+            }
         }
     }
 
     void Update()
     {
-        //Debug.Log("player score: " + score);
         Debugger();
     }
 }

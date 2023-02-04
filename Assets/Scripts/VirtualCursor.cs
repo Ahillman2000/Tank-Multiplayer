@@ -6,7 +6,7 @@ public class VirtualCursor : MonoBehaviour
 {
     [SerializeField] private Texture2D virtualCursorVisual;
 
-    private void Awake()
+    private void Start()
     {
         ChangeCursor(virtualCursorVisual);
         Cursor.lockState = CursorLockMode.Confined;

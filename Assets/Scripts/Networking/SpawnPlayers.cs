@@ -23,32 +23,15 @@ public class SpawnPlayers : MonoBehaviour
         maxX = maxValues.position.x;
         maxY = maxValues.position.y;
 
-        Vector2 randomPosition = new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
-
         //PhotonNetwork.Instantiate(playerPrefab.name, randomPosition, Quaternion.identity);
 
-        byte _playerCount = PhotonNetwork.CurrentRoom.PlayerCount; 
-        switch(_playerCount)
-        {
-            case 1:
-                PhotonNetwork.Instantiate(playerPrefabs[0].name, randomPosition, Quaternion.identity);
-                break;
-            case 2:
-                PhotonNetwork.Instantiate(playerPrefabs[1].name, randomPosition, Quaternion.identity);
-                break;
-            case 3:
-                PhotonNetwork.Instantiate(playerPrefabs[2].name, randomPosition, Quaternion.identity);
-                break;
-            case 4:
-                PhotonNetwork.Instantiate(playerPrefabs[3].name, randomPosition, Quaternion.identity);
-                break;
-            case 5:
-                PhotonNetwork.Instantiate(playerPrefabs[4].name, randomPosition, Quaternion.identity);
-                break;
-            default:
-                Debug.LogError("No players within room");
-                break;
-        }
+        byte _playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+        PhotonNetwork.Instantiate(playerPrefabs[_playerCount].name, GenerateRandomPosition(), Quaternion.identity);
+    }
+
+    private Vector2 GenerateRandomPosition()
+    {
+        return new Vector2(Random.Range(minX, maxX), Random.Range(minY, maxY));
     }
 
     void Update()

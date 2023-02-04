@@ -12,7 +12,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby Instance { get; private set; }
 
-    public TMP_InputField nameInputField;
+    public TMP_Text nameInputField;
     public TMP_InputField joinRoomInputField;
 
     public List<Button> buttons = new List<Button>();
@@ -87,7 +87,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public override void OnCreatedRoom()
     {
         base.OnCreatedRoom();
-        Debug.Log("new room created with code: " + PhotonNetwork.CurrentRoom.Name);
+        PhotonNetwork.NickName = nameInputField.text;
+        Debug.Log(PhotonNetwork.NickName + " created new room with code: " + PhotonNetwork.CurrentRoom.Name);
     }
 
     /// <summary>
@@ -133,10 +134,10 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        SceneManager.LoadScene("Room");
-
         PhotonNetwork.NickName = nameInputField.text;
         Debug.Log(PhotonNetwork.NickName + " has joined the room " + PhotonNetwork.CurrentRoom.Name);
+
+        SceneManager.LoadScene("Room");
     }
 
     /// <summary>

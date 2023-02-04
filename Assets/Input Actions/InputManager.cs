@@ -5,8 +5,6 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    public static InputManager Instance { get; private set; }
-
     public TankInputActions tankInputActions;
     private InputAction movementInput;
     private InputAction rotationInput;
@@ -18,16 +16,6 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Debug.LogWarning($"There should only be one instance of {Instance.GetType()}", this);
-            Destroy(this);
-        }
-
         tankInputActions = new TankInputActions();
     }
 
@@ -43,6 +31,7 @@ public class InputManager : MonoBehaviour
         lookVector.Enable();
 
         tankInputActions.Tank.Shoot.Enable();
+        tankInputActions.Tank.ToggleSettings.Enable();
     }
 
     private void OnDisable()
@@ -51,6 +40,7 @@ public class InputManager : MonoBehaviour
         rotationInput.Disable();
         lookVector.Disable();
 
-        tankInputActions.Tank.Shoot.Enable();
+        tankInputActions.Tank.Shoot.Disable();
+        tankInputActions.Tank.ToggleSettings.Disable();
     }
 }

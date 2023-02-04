@@ -16,16 +16,18 @@ public class TankCombat : MonoBehaviour
 
     PhotonView view;
 
+    [SerializeField] private InputManager inputManager;
+
     void Start()
     {
         view = this.GetComponent<PhotonView>();
 
-        InputManager.Instance.tankInputActions.Tank.Shoot.performed += DoShoot;
+        inputManager.tankInputActions.Tank.Shoot.performed += DoShoot;
     }
 
     private void OnDisable()
     {
-        InputManager.Instance.tankInputActions.Tank.Shoot.performed -= DoShoot;
+        inputManager.tankInputActions.Tank.Shoot.performed -= DoShoot;
     }
 
     void Update()
@@ -52,14 +54,14 @@ public class TankCombat : MonoBehaviour
         if(SceneManager.GetActiveScene().name == "OfflineGame")
         {
             GameObject shell = Instantiate(projectile, firePoint.position, firePoint.rotation);
-            shell.GetComponent<Bullet>().owner = this.GetComponent<Tank>();
-            shell.GetComponent<Bullet>().damage = damage;
+            shell.GetComponent<Shell>().owner = this.GetComponent<Tank>();
+            shell.GetComponent<Shell>().damage = damage;
         }
         else if(SceneManager.GetActiveScene().name == "OnlineGame")
         {
             GameObject shell = PhotonNetwork.Instantiate(projectile.name, firePoint.position, firePoint.rotation);
-            shell.GetComponent<Bullet>().owner = this.GetComponent<Tank>();
-            shell.GetComponent<Bullet>().damage = damage;
+            shell.GetComponent<Shell>().owner = this.GetComponent<Tank>();
+            shell.GetComponent<Shell>().damage = damage;
         }
         shotTimer = 0f;
     }

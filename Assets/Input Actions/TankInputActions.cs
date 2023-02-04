@@ -62,6 +62,15 @@ public partial class @TankInputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleSettings"",
+                    ""type"": ""Button"",
+                    ""id"": ""4deb3c87-1880-4efd-b816-670b9bd3cbf5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -240,6 +249,28 @@ public partial class @TankInputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba45c439-35b7-44b1-b5df-6773bd3f5fe9"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleSettings"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bd38dd5e-ee37-4ffd-8a5b-2ebccf1739ad"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleSettings"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -252,6 +283,7 @@ public partial class @TankInputActions : IInputActionCollection2, IDisposable
         m_Tank_Turn = m_Tank.FindAction("Turn", throwIfNotFound: true);
         m_Tank_Shoot = m_Tank.FindAction("Shoot", throwIfNotFound: true);
         m_Tank_Look = m_Tank.FindAction("Look", throwIfNotFound: true);
+        m_Tank_ToggleSettings = m_Tank.FindAction("ToggleSettings", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -315,6 +347,7 @@ public partial class @TankInputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Tank_Turn;
     private readonly InputAction m_Tank_Shoot;
     private readonly InputAction m_Tank_Look;
+    private readonly InputAction m_Tank_ToggleSettings;
     public struct TankActions
     {
         private @TankInputActions m_Wrapper;
@@ -323,6 +356,7 @@ public partial class @TankInputActions : IInputActionCollection2, IDisposable
         public InputAction @Turn => m_Wrapper.m_Tank_Turn;
         public InputAction @Shoot => m_Wrapper.m_Tank_Shoot;
         public InputAction @Look => m_Wrapper.m_Tank_Look;
+        public InputAction @ToggleSettings => m_Wrapper.m_Tank_ToggleSettings;
         public InputActionMap Get() { return m_Wrapper.m_Tank; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -344,6 +378,9 @@ public partial class @TankInputActions : IInputActionCollection2, IDisposable
                 @Look.started -= m_Wrapper.m_TankActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_TankActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_TankActionsCallbackInterface.OnLook;
+                @ToggleSettings.started -= m_Wrapper.m_TankActionsCallbackInterface.OnToggleSettings;
+                @ToggleSettings.performed -= m_Wrapper.m_TankActionsCallbackInterface.OnToggleSettings;
+                @ToggleSettings.canceled -= m_Wrapper.m_TankActionsCallbackInterface.OnToggleSettings;
             }
             m_Wrapper.m_TankActionsCallbackInterface = instance;
             if (instance != null)
@@ -360,6 +397,9 @@ public partial class @TankInputActions : IInputActionCollection2, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @ToggleSettings.started += instance.OnToggleSettings;
+                @ToggleSettings.performed += instance.OnToggleSettings;
+                @ToggleSettings.canceled += instance.OnToggleSettings;
             }
         }
     }
@@ -370,5 +410,6 @@ public partial class @TankInputActions : IInputActionCollection2, IDisposable
         void OnTurn(InputAction.CallbackContext context);
         void OnShoot(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnToggleSettings(InputAction.CallbackContext context);
     }
 }

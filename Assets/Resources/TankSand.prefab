@@ -199,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2803594695987528017}
   m_Layer: 0
-  m_Name: firePoint
+  m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -229,6 +229,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3394398071338914126}
+  - component: {fileID: -3402403815767582867}
   - component: {fileID: -3654380178949173787}
   - component: {fileID: 5216638617489125501}
   - component: {fileID: 8544232688632747467}
@@ -260,6 +261,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3402403815767582867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5588945407586738141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea1d9425ccb92fa4e85082b5ff22db69, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-3654380178949173787
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +286,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLives: 3
+  currentLives: 0
   deathEffect: {fileID: 8650124224471081967, guid: 19f0e31175f930b4a9c21d0400bf28fc, type: 3}
+  score: 0
+  healthUI: {fileID: 0}
 --- !u!114 &5216638617489125501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tankRotationSpeed: 100
   movementSpeed: 3
+  inputManager: {fileID: -3402403815767582867}
 --- !u!114 &8544232688632747467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,6 +320,8 @@ MonoBehaviour:
   firePoint: {fileID: 2803594695987528017}
   projectile: {fileID: 8820164562680827922, guid: 2094ffed9b4cd5f4891db203ba0f006f, type: 3}
   damage: 1
+  shotCooldown: 0.5
+  inputManager: {fileID: -3402403815767582867}
 --- !u!212 &8516777434761522719
 SpriteRenderer:
   m_ObjectHideFlags: 0

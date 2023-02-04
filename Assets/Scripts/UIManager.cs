@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
     [SerializeField] private GameObject highscoreContainer;
-    [SerializeField] private GameObject SettingsContainer;
+    [SerializeField] private GameObject settingsContainer;
     [SerializeField] private GameObject gameOverContaner;
+
+    [SerializeField] private InputManager inputManager;
 
     private void Awake()
     {
@@ -24,6 +27,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        inputManager.tankInputActions.Tank.ToggleSettings.performed += DoToggleSettingContainer;
+    }
+
+    private void OnDisable()
+    {
+        inputManager.tankInputActions.Tank.ToggleSettings.performed -= DoToggleSettingContainer;
+    }
+
     public void ToggleHighscoreContainer()
     {
         if(highscoreContainer.activeInHierarchy)
@@ -36,15 +49,20 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void DoToggleSettingContainer(InputAction.CallbackContext context)
+    {
+        ToggleSettingContainer();
+    }
+
     public void ToggleSettingContainer()
     {
-        if (highscoreContainer.activeInHierarchy)
+        if (settingsContainer.activeInHierarchy)
         {
-            SettingsContainer.SetActive(false);
+            settingsContainer.SetActive(false);
         }
         else
         {
-            SettingsContainer.SetActive(true);
+            settingsContainer.SetActive(true);
         }
     }
 
